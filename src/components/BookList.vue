@@ -5,6 +5,7 @@ defineProps({
 })
 
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router';
 
 let bookList = [{
   id: 1,
@@ -49,53 +50,55 @@ let bookList = [{
 
 let bookItems = bookList.map((item) => {
   item.value = item.id
-  item.props = {prependIcon: 'mdi-book'}
+  item.props = { prependIcon: 'mdi-book' }
   return item
 })
 
 console.log(bookItems);
 
-const userControls = [
-    { title: 'Content filtering', subtitle: 'Set the content filtering level to restrict appts that can be downloaded' },
-    { title: 'Password', subtitle: 'Require password for purchase or use password to restrict purchase' },
-  ]
-
-  const settingsItems = [
-    { value: 'notifications', title: 'Notifications', subtitle: 'Notify me about updates to apps or games that I downloaded' },
-    { value: 'sound', title: 'Sound', subtitle: 'Auto-update apps at any time. Data charges may apply' },
-    { value: 'widgets', title: 'Auto-add widgets', subtitle: 'Automatically add home screen widgets when downloads complete' },
-  ]
-
-const settingsSelection = ref([])
 const favourites = ref([])
+
+const goToAddBook = () => {
+  this.$router.push('/add-book')
+}
 
 </script>
 
 <template>
-<div>Список книг</div>
-  <ul>
-    <v-list
-      v-model:selected="favourites"
-      lines="three"
-      select-strategy="leaf"
-    >
-      <v-list-item
-        v-for="book in bookItems"
-        :key="book.value"
-        :subtitle="book.author"
-        :title="book.title"
-        :value="book.value"
-      >
-        <template v-slot:prepend="{ selected }">
-          <v-list-item-action start>
-            <v-checkbox :model="selected" label="book.title" value="book"></v-checkbox>
-          </v-list-item-action>
-        </template>
-      </v-list-item>
-    </v-list>
-  </ul>
+  <div class="book-list-container">
+    <h2>Список книг</h2>
+    <RouterLink to="/add-book">
+      <v-btn prepend-icon="$add">
+        <v-icon icon="$mdiBook"></v-icon>
+        Добавить книгу
+      </v-btn>
+    </RouterLink>
+
+
+    <ul class="book-list">
+      <v-list v-model:selected="favourites" lines="three" select-strategy="leaf">
+        <v-list-item v-for="book in bookItems" :key="book.value" :subtitle="book.author" :title="book.title"
+          :value="book.value">
+          <template v-slot:prepend="{ selected }">
+            <v-list-item-action start>
+              <v-checkbox :model="selected" :label="book.title" :value="book"></v-checkbox>
+            </v-list-item-action>
+          </template>
+        </v-list-item>
+      </v-list>
+    </ul>
+  </div>
+
 </template>
 
 <style scoped>
+.book-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
+.v-btn {
+  width: 100%;
+}
 </style>

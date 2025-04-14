@@ -1,15 +1,21 @@
+<script setup>
+import AddBookForm from '@/components/AddBookForm.vue';
+
+</script>
+
 <template>
-  <div class="about">
-    <h1>This is add book page</h1>
+  <div class="add-book-container">
+    <AddBookForm />
   </div>
+
 </template>
 
 <style>
 @media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
+  .add-book-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 </style>
